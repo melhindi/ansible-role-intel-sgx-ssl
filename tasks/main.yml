@@ -1,0 +1,44 @@
+---
+# tasks file for intel_sgx_ssl
+
+- name: Include variables
+  ansible.builtin.include_vars:
+    file: main.yml
+
+- name: Ensure git is installed
+  ansible.builtin.apt:
+    name: git
+    state: present
+    update_cache: true
+
+- name: Clone intel-sgx-ssl repository
+  ansible.builtin.git:
+    repo: "{{ sgx_ssl_repo_url }}"
+    dest: "{{ sgx_ssl_download_path }}"
+    version: "{{ sgx_ssl_release_version }}"
+
+- name: Get openssl sources
+  ansible.builtin.get_url:
+    url: '{{ openssl_source_url }}'
+    dest: "{{ sgx_ssl_download_path }}/openssl_source/"
+
+- name: Call build_openssl.sh
+  ansible.builtin.command:
+    cmd: "{{ sgx_ssl_download_path }}/Linux/build_openssl.sh"
+    chdir: "{{ sgx_ssl_download_path }}/Linux/"
+    creates: "{{ sgx_ssl_download_path }}/Linux/package"
+  become: true
+
+- name: Compile sgx-ssl - this might take long!
+  ansible.builtin.make:
+    chdir: "{{ sgx_ssl_download_path }}/Linux"
+    jobs: "{{ num_build_jobs }}"
+    params:
+      PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  become: true
+
+- name: Install sgx-ssl
+  ansible.builtin.make:
+    chdir: "{{ sgx_ssl_download_path }}/Linux"
+    target: install
+  become: true

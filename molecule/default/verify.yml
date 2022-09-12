@@ -1,0 +1,20 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Load variables
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Compile test app
+      ansible.builtin.make:
+        chdir: "{{ sgx_ssl_download_path }}/Linux/sgx/test_app"
+        params:
+          SGX_MODE: "SIM"
+          SGX_SDK: "/opt/intel/sgxsdk"
+          PATH: "$SGX_SDK/bin:$SGX_SDK/bin/x64:/usr/local/bin:{{ ansible_env.PATH }}"
+          PKG_CONFIG_PATH: "$PKG_CONFIG_PATH:$SGX_SDK/pkgconfig"
+          LD_LIBRARY_PATH: "$SGX_SDK/sdk_libs"

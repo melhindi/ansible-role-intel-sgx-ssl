@@ -1,0 +1,6 @@
+---
+# defaults file for intel_sgx_ssl
+
+sgx_ssl_repo_url: "https://github.com/intel/intel-sgx-ssl.git"
+sgx_ssl_download_path: "/tmp/intel-sgx-ssl"
+openssl_source_url: "https://www.openssl.org/source/openssl-{{ openssl_version }}.tar.gz"
