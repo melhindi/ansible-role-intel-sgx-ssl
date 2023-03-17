@@ -6,11 +6,10 @@
   gather_facts: true
   tasks:
     - name: Load variables
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
-
     - name: Compile test app
-      ansible.builtin.make:
+      community.general.make:
         chdir: "{{ sgx_ssl_download_path }}/Linux/sgx/test_app"
         params:
           SGX_MODE: "SIM"
