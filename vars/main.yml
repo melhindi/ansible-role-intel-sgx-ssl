@@ -1,6 +1,6 @@
 ---
 # vars file for intel_sgx_ssl
 
-sgx_ssl_release_version: lin_2.16_1.1.1m_update
-openssl_version: "1.1.1l"
-num_build_jobs: 2
+sgx_ssl_release_version: lin_2.19_1.1.1t
+openssl_version: "1.1.1t"
+num_build_jobs: "{{ ansible_processor_vcpus // 2 }}"

@@ -3,11 +3,12 @@ galaxy_info:
   author: melhindi
   description: Install the Intel SGX SSL library from source.
   license: Apache-2.0
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
   platforms:
     - name: Ubuntu
       versions:
       - focal
+      - jammy
 
   galaxy_tags:
     - intel
@@ -18,4 +19,3 @@ dependencies:
   - role: melhindi.intel_sgx_pws
   - role: melhindi.intel_sgx_sdk
   - role: melhindi.intel_sgx_as
-  
